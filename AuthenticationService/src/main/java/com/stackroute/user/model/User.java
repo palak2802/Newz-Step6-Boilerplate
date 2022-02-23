@@ -1,5 +1,6 @@
 package com.stackroute.user.model;
 
+import javax.persistence.Entity;
 
 /*
  * The class "User" will be acting as the data model for the User Table in the database. 
@@ -9,7 +10,7 @@ package com.stackroute.user.model;
  * Java object to recreate it as a table in your database.
  */
 
-
+@Entity
 public class User {
 	
     /*
@@ -19,38 +20,48 @@ public class User {
 	 * parameterized constructor and toString method.
 	 */
 
-
 	private String userId;
 	private String password;
 	private String cpassword;
 	
 	public User() {
 		super();
-	}	
-	
-	
+	}
+
 	public User(String userId, String password, String cpassword) {
+		super();
+		this.userId = userId;
+		this.password = password;
+		this.cpassword = cpassword;
+	}
 
-	}	
-	
-	
 	public String getUserId() {
-		return null;
-	}
-	public void setUserId(String userId) {
-		
-	}
-	public String getPassword() {
-		return null;
-	}
-	public void setPassword(String password) {
-		
-	}
-	public String getCpassword() {
-		return null;
-	}
-	public void setCpassword(String cpassword) {
-		
+		return userId;
 	}
 
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getCpassword() {
+		return cpassword;
+	}
+
+	public void setCpassword(String cpassword) {
+		this.cpassword = cpassword;
+	}
+
+	@Override
+	public String toString() {
+		return "User [userId=" + userId + ", password=" + password + ", cpassword=" + cpassword + "]";
+	}
+	
 }

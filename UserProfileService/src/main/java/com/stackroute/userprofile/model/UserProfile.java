@@ -2,12 +2,18 @@ package com.stackroute.userprofile.model;
 
 import java.time.LocalDateTime;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+
 /*
  * Please note that this class is annotated with @Document annotation
  * @Document identifies a domain object to be persisted to MongoDB.
  *  
  */
-
+@Document
 public class UserProfile {
 
 	/*
@@ -19,46 +25,81 @@ public class UserProfile {
 	 * method.The value of createdAt should not be accepted from the user but
 	 * should be always initialized with the system date.
 	 */
-
-    
+	@Id
+	private String userId;
+	private String firstName;
+	private String lastName;
+	private String contact;
+	private String email;
+	@JsonSerialize(using = ToStringSerializer.class)
+	private LocalDateTime createdAt;
+	
     public UserProfile() {
+    	this.createdAt = LocalDateTime.now();
     }
-    
-    public UserProfile(String string1, String string2, String string3, String string4, String string5, LocalDateTime date) {
+
+	public UserProfile(String userId, String firstName, String lastName, String contact, String email, LocalDateTime createdAt) {
+		super();
+		this.userId = userId;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.contact = contact;
+		this.email = email;
+		this.createdAt = createdAt;
 	}
 
 	public String getUserId() {
-		return null;
+		return userId;
 	}
+
 	public void setUserId(String userId) {
+		this.userId = userId;
 	}
+
 	public String getFirstName() {
-		return null;
+		return firstName;
 	}
+
 	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
+
 	public String getLastName() {
-		return null;
+		return lastName;
 	}
+
 	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
+
 	public String getContact() {
-		return null;
+		return contact;
 	}
+
 	public void setContact(String contact) {
+		this.contact = contact;
 	}
+
 	public String getEmail() {
-		return null;
+		return email;
 	}
+
 	public void setEmail(String email) {
+		this.email = email;
 	}
+
 	public LocalDateTime getCreatedAt() {
-		return null;
+		return createdAt;
 	}
+
 	public void setCreatedAt() {
+		this.createdAt = LocalDateTime.now();
 	}
-	
-	
-    
+
+	@Override
+	public String toString() {
+		return "UserProfile [userId=" + userId + ", firstName=" + firstName + ", lastName=" + lastName + ", contact="
+				+ contact + ", email=" + email + ", createdAt=" + createdAt + "]";
+	}
     
 }

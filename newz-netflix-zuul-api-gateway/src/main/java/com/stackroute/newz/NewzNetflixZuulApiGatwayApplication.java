@@ -1,7 +1,10 @@
 package com.stackroute.newz;
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.context.annotation.Bean;
 
 import com.stackroute.newz.zuul.filter.JwtFilter;
@@ -13,7 +16,9 @@ import com.stackroute.newz.zuul.filter.JwtFilter;
  * Add @EnableZuulProxy and @EnableEurekaClient
  * 
  */
-
+@SpringBootApplication
+@EnableZuulProxy
+@EnableEurekaClient
 public class NewzNetflixZuulApiGatwayApplication {
 
 	public static void main(String[] args) {
@@ -27,10 +32,12 @@ public class NewzNetflixZuulApiGatwayApplication {
 	 * Also specifies the Url patterns for registration bean.
 	 */
 
-
     @Bean
     public FilterRegistrationBean<JwtFilter> jwtFilter() {
-        return null;
+    	final FilterRegistrationBean<JwtFilter> registrationBean = new FilterRegistrationBean<JwtFilter>();
+    	registrationBean.setFilter(new JwtFilter());
+    	registrationBean.addUrlPatterns("/api/*");
+    	return registrationBean;
     }
 	
 

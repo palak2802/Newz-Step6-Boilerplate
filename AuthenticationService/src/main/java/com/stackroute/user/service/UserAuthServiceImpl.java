@@ -3,6 +3,13 @@ package com.stackroute.user.service;
 import com.stackroute.user.util.exception.UserAlreadyExistsException;
 import com.stackroute.user.util.exception.UserNotFoundException;
 import com.stackroute.user.model.User;
+import com.stackroute.user.repository.UserAuthRepository;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.Optional;
+
 
    /*
 	* Service classes are used here to implement additional business logic/validation 
@@ -13,7 +20,7 @@ import com.stackroute.user.model.User;
 	* better. Additionally, tool support and additional behavior might rely on it in the 
 	* future.
 	*/
-
+@Service
 public class UserAuthServiceImpl implements UserAuthService {
 
 	/*
@@ -21,6 +28,12 @@ public class UserAuthServiceImpl implements UserAuthService {
 	 * (Use Constructor-based autowiring) Please note that we should not create any
 	 * object using the new keyword.
 	 */
+	private UserAuthRepository userAuthRepo;
+	@Autowired
+	public UserAuthServiceImpl(UserAuthRepository userAuthRepo) {
+		super();
+		this.userAuthRepo = userAuthRepo;
+	}
 
 	/*
 	 * This method should be used to find an existing User with correct password.
@@ -28,7 +41,10 @@ public class UserAuthServiceImpl implements UserAuthService {
     
     @Override
     public User findByUserIdAndPassword(String userId, String password) throws UserNotFoundException {
-        return null;
+    	User user = userAuthRepo.findByUserIdAndPassword(userId, password);
+		if(user != null)
+			return user;
+		return null;
     }
 
 	/*
@@ -37,6 +53,13 @@ public class UserAuthServiceImpl implements UserAuthService {
     
     @Override
     public boolean saveUser(User user) throws UserAlreadyExistsException {
-        return false;
+    	Optional<User> isUserExists = userAuthRepo.findById(user.getUserId());
+    	if(isUserExists.isEmpty()) {
+    		userAuthRepo.save(user);
+    		return true;
+    	}
+    	else{
+    		throw new UserAlreadyExistsException("User Already Exists.");
+    	}
     }
 }
