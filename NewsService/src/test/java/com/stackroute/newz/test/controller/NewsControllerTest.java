@@ -84,7 +84,7 @@ class NewsControllerTest {
         news.setUrl("//CSKIndiansVcRCB.html");
         news.setUrlToImage("//CSKIndiansVcRCB.png");
         news.setReminder(reminder);
-        news.setNewsSource(newsSource);
+        news.setNewssource(newsSource);
 
         newsList = new ArrayList<>();
         newsList.add(news);
